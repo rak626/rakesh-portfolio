@@ -8,7 +8,7 @@ import ProjectCard from "@/components/ProjectCard";
 export default function ProjectsStickyReveal() {
     return (
         <section className="relative section-header-style gradient-animate">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 lg:pt-12">
                 {/* Section Title */}
                 <motion.h2
                     className="text-4xl font-extrabold text-gray-900 text-center mb-12"
