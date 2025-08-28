@@ -10,14 +10,14 @@ export default function ProjectsStickyReveal() {
         <section className="relative section-header-style gradient-animate">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
                 {/* Section Title */}
-                <motion.div
+                <motion.h2
                     className="text-4xl font-extrabold text-gray-900 text-center mb-12"
                     initial={{y: -50, opacity: 0}}
                     animate={{y: 0, opacity: 1}}
                     transition={{duration: 0.5}}
                 >
                     Projects
-                </motion.div>
+                </motion.h2>
             </div>
             <div className="max-w-7xl mx-auto px-6 space-y-32">
                 {projects.map((project, idx) => (

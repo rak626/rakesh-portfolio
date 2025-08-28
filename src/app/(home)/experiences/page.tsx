@@ -15,15 +15,15 @@ export default function ExperiencePage() {
 
     return (
         <section className="section-header-style gradient-animate">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                <motion.div
+            <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-8 lg:pt-12">
+                <motion.h2
                     className="text-4xl font-extrabold text-gray-900 text-center mb-12"
                     initial={{x: -50, opacity: 0}}
                     animate={{x: 0, opacity: 1}}
                     transition={{duration: 0.5}}
                 >
                     Experiences
-                </motion.div>
+                </motion.h2>
             </div>
 
             <div ref={containerRef} className="relative w-full lg:max-w-8/12 mx-auto px-6">
