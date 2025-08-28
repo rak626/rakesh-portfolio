@@ -152,8 +152,8 @@ export const personalInfo: PersonalInfo = {
         linkedin: "https://www.linkedin.com/in/ghoshrakesh626/",
         github: "https://github.com/rak626",
         twitter: "https://x.com/RakeshG51567945",
-        facebook: "https://www.facebook.com/rakesh.ghosh.7549",
-        instagram: "https://www.instagram.com/rakesh.ghosh.7549/",
+        facebook: "https://www.facebook.com/rakesh.ghosh.777363",
+        instagram: "https://www.instagram.com/rakesh_ghosh_400/",
     }
 }
 

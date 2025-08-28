@@ -145,7 +145,7 @@ export default function ContactPage() {
                                         rel="noopener noreferrer"
                                         className="text-gray-700 hover:text-gray-900 transition-colors"
                                     >
-                                        <SkillIcon>{GetSkillIcon["linkedin"]}</SkillIcon>
+                                        <SkillIcon>{GetSkillIcon["twitter"]}</SkillIcon>
                                     </a>
                                 )}
                                 {GetSkillIcon["facebook"] && (
