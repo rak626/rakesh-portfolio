@@ -1,4 +1,25 @@
-import {Experience, Institute, PersonalInfo, Project, Skill} from "@/utils/types/types";
+import {Experience, Institute, NavElement, PersonalInfo, Project, Skill} from "@/utils/types/types";
+
+export const navElements: NavElement[] = [
+    {
+        name: "Home", slug: "/"
+    },
+    {
+        name: "Skills", slug: "/skills"
+    },
+    {
+        name: "Experiences", slug: "/experiences"
+    },
+    {
+        name: "Projects", slug: "/projects"
+    },
+    {
+        name: "Education", slug: "/education"
+    },
+    {
+        name: "Contact Me", slug: "/contact"
+    },
+];
 
 // Skills data categorized, need to update icons in iconUtils if skills are changed
 export const skillsData: Record<string, Skill[]> = {

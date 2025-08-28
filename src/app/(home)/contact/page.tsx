@@ -25,8 +25,8 @@ export default function ContactPage() {
     const inputBoxClasses = "border-b-2 border-green-400 rounded px-4 py-2 focus:outline-none ";
 
     return (
-        <main className="min-h-screen py-20 px-6 gradient-animate">
-            <div className="max-w-7xl mx-auto">
+        <section className="section-header-style gradient-animate">
+            <div className="max-w-7xl mx-auto px-4 lg:px-8 pt-12 pb-0">
                 <motion.h2
                     className="text-4xl font-bold text-center mb-4"
                     initial={{opacity: 0, y: -20}}
@@ -114,7 +114,8 @@ export default function ContactPage() {
                         </motion.form>
                     </div>
                     <div className="w-0.5 lg:h-96 bg-gray-400 mx-10"></div>
-                    <div className="flex-1 text-center flex flex-col justify-center gap-y-8">
+
+                    <div className="flex-1 text-center flex flex-col justify-center gap-y-8 mt-8">
                         <div>
                             <h3 className="text-2xl font-bold mb-4">Connect with me</h3>
                             <div className="flex justify-center space-x-6">
@@ -171,7 +172,7 @@ export default function ContactPage() {
                             </div>
                         </div>
                         <div className="flex items-center justify-center gap-4">
-                            <hr className="h-0.5 w-1/6 bg-gray-500"/>
+                            <hr className="h-0.5 w-1/6 bg-gray-400"/>
                         </div>
                         <div>
                             {/* Email Contact */}
@@ -200,6 +201,6 @@ export default function ContactPage() {
                     </div>
                 </div>
             </div>
-        </main>
+        </section>
     );
 }

@@ -44,3 +44,8 @@ export type PersonalInfo = {
         [key: string]: string | undefined; // For any additional social links
     };
 }
+
+export type NavElement = {
+    name: string;
+    slug: string;
+}
