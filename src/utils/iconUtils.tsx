@@ -14,6 +14,7 @@ import {
     SiApachemaven,
     SiCplusplus,
     SiDocker,
+    SiExpress,
     SiIntellijidea,
     SiJenkins,
     SiMongodb,
@@ -21,6 +22,7 @@ import {
     SiNextdotjs,
     SiPostgresql,
     SiPostman,
+    SiSocketdotio,
     SiSpring,
     SiSwagger,
     SiTailwindcss
@@ -52,6 +54,9 @@ export const GetSkillIcon: Record<string, ReactElement> = {
     twitter: <FaTwitter/>,
     facebook: <FaFacebook/>,
     instagram: <FaInstagram/>,
-    github: <FaGithub/>
+    github: <FaGithub/>,
+    "node.js": <FaNodeJs/>,
+    "socket.io": <SiSocketdotio/>,
+    express: <SiExpress/>,
 
 };
