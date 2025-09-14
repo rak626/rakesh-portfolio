@@ -5,7 +5,8 @@ import {personalInfo} from "@/datas/data";
 const Footer = () => {
     return (
         <footer className="w-full bg-gradient-to-r from-green-600 via-green-700 to-green-800 text-white py-8">
-            <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 md:gap-0">
+            <div
+                className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center md:items-start justify-between gap-6 md:gap-0">
 
                 {/* Left: Brand / Copyright */}
                 <div className="text-center md:text-left">

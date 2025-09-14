@@ -55,7 +55,7 @@ const Hero = () => {
                         transition={{duration: 0.8, delay: 0.3}}
                     >
                         <motion.a
-                            href="/files/Rakesh_Ghosh_Resume.pdf"
+                            href="/files/Rakesh_Ghosh_SDE2_4YoE.pdf"
                             whileHover={{scale: 1.05}}
                             whileTap={{scale: 0.95}}
                             className="px-6 sm:px-8 py-3 sm:py-4 rounded-lg bg-green-600 text-white text-base sm:text-lg font-medium hover:bg-green-700 transition-colors shadow-md"

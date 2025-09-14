@@ -35,23 +35,36 @@ export const skillsData: Record<string, Skill[]> = {
 
 
 export const experiences: Experience[] = [{
-    "date": "Jan 2024 – Jun 2025",
-    "role": "Software Engineer",
+    "date": "Jan 2024 - Jun 2025",
+    "role": "Software Developer - Payabbhi",
     "company": "RS Software",
-    "description": ["Designed a high-performance Virtual Terminal Portal using Java, Spring Boot, and JPA, improving transaction response time by 50%.", "Integrated a payment gateway with VISA, Mastercard, TSYS, and WorldPay, handling 10M+ transactions/sec with high reliability.", "Built event-driven microservices with Kafka, reducing average query processing time by 60%.", "Developed customer/merchant features (Installments, Recurring Payments, Multi-shipping), boosting adoption across CP & CNP channels.", "Developed a Kafka-based Notification Service processing 1M+ monthly events.", "Centralized Quartz job scheduling for 50+ recurring tasks, reducing manual failures by 90%.", "Optimized wallet and customer allocation modules, achieving 2x faster repeat transactions.", "Collaborated with cross-functional teams using Agile methodologies (Jira) to gather requirements, deliver multiple projects on time, and ensure high code quality."],
-    skills: ["Java", "Spring Boot", "JPA", "Kafka", "Redis", "Docker", "Github", "Jenkins", "Maven", "IntelliJ", "Jira"]
+    "description": [
+        "Contributed to Payabbhi’s payment system features (Auth, Sale, Refund, Void) integrated with card networks like VISA, Mastercard, etc, and processors such as TSYS and WorldPay, supporting up to 10M+ transactions per second.",
+        "Developed a virtual terminal portal and Hosted Payment Page to enable secure card transactions and oversee user payment sessions, utilising Redis TTL for an efficient and smooth payment experience.",
+        "Implemented features like Instalment, Recurring Payments, and Multi-shipping, for both customers & merchants, enhancing feature adoption for Card Present (CP) and Card Not Present (CNP) situations.",
+        "Improved Batch Settlement (Clearing) system by 40% of its previous version, supports up to 1500 transactions per batch by introducing a clearance table & refined recursion-based function.",
+        "Developed a Kafka-based Notification Service handling 1M+ monthly events of sending email, sms for payment receipts, reports, orders, etc.",
+        "Introduced a Quartz-based job scheduler to centrally manage over 50 recurring tasks centrally, reducing manual job failures by 90%."
+    ],
+    "skills": ["Java", "Spring Boot", "JPA", "Kafka", "Redis", "Docker", "Github", "Jenkins", "Maven", "IntelliJ", "Jira"]
 }, {
-    "date": "Sep 2021 – Jul 2023",
-    "role": "Programmer Analyst",
+    "date": "Sep 2021 - Jul 2023",
+    "role": "Programmer Analyst - AIG Insurance Europe",
     "company": "Cognizant",
-    "description": ["Developed a merchant onboarding portal from scratch using Spring Boot and React, streamlining onboarding and increasing client delivery speed by 50%.", "Created a reusable automation framework with Spring Boot and Rest Assured, saving over 1500 hours of manual testing.", "Led a team of 3 developers, maintaining 90%+ sprint velocity (Rally) and ensuring smooth offshore collaboration."],
-    skills: ["Java", "Spring Boot", "React", "Github", "Jenkins", "Maven", "IntelliJ", "Rest Assured", "Rally"],
+    "description": [
+        "Migrated key insurance modules, such as booking and binding, into Spring Boot, boosting system performance by 25% and enhancing user experience.",
+        "Developed scalable microservices and UI features using REST APIs, Spring Boot, and JavaScript, reducing claim delays by 15% and ensuring regulatory compliance.",
+        "Achieved a 95%+ sprint delivery rate in an onsite-offshore model, modernising legacy systems and cutting maintenance costs by 18%."
+    ],
+    "skills": ["Java", "Spring Boot", "React", "Github", "Jenkins", "Maven", "IntelliJ", "Rest Assured", "Rally"]
 }, {
-    "date": "Mar 2021 – Aug 2021",
-    "role": "Programmer Analyst Trainee – (Internship)",
+    "date": "Mar 2021 - Aug 2021",
+    "role": "Internship - MainSpring",
     "company": "Cognizant",
-    "description": ["Developed an internal portal, MainSpring, using Spring Boot and PostgreSQL, streamlining internal workflows and improving data accessibility.", "Implemented RESTful APIs to automate data retrieval and reporting, reducing manual effort by 40%.", "Collaborated with team members & mentor to gather and developed each requirements."],
-    skills: ["Java", "Spring Boot", "PostgreSQL", "Github", "Maven", "IntelliJ"],
+    "description": [
+        "Played a key role in Cognizant’s Internal Framework Hub (MainSpring) by developing and enhancing features, optimising workflows, and improving system efficiency to support internal business processes and client-facing applications."
+    ],
+    "skills": ["Java", "Spring Boot", "PostgreSQL", "Github", "Maven", "IntelliJ"]
 }]
 
 
