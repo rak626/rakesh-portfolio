@@ -34,38 +34,49 @@ export const skillsData: Record<string, Skill[]> = {
 };
 
 
-export const experiences: Experience[] = [{
-    "date": "Jan 2024 - Jun 2025",
-    "role": "Software Developer - Payabbhi",
-    "company": "RS Software",
-    "description": [
-        "Contributed to Payabbhi’s payment system features (Auth, Sale, Refund, Void) integrated with card networks like VISA, Mastercard, etc, and processors such as TSYS and WorldPay, supporting up to 10M+ transactions per second.",
-        "Developed a virtual terminal portal and Hosted Payment Page to enable secure card transactions and oversee user payment sessions, utilising Redis TTL for an efficient and smooth payment experience.",
-        "Implemented features like Instalment, Recurring Payments, and Multi-shipping, for both customers & merchants, enhancing feature adoption for Card Present (CP) and Card Not Present (CNP) situations.",
-        "Improved Batch Settlement (Clearing) system by 40% of its previous version, supports up to 1500 transactions per batch by introducing a clearance table & refined recursion-based function.",
-        "Developed a Kafka-based Notification Service handling 1M+ monthly events of sending email, sms for payment receipts, reports, orders, etc.",
-        "Introduced a Quartz-based job scheduler to centrally manage over 50 recurring tasks centrally, reducing manual job failures by 90%."
-    ],
-    "skills": ["Java", "Spring Boot", "JPA", "Kafka", "Redis", "Docker", "Github", "Jenkins", "Maven", "IntelliJ", "Jira"]
-}, {
-    "date": "Sep 2021 - Jul 2023",
-    "role": "Programmer Analyst - AIG Insurance Europe",
-    "company": "Cognizant",
-    "description": [
-        "Migrated key insurance modules, such as booking and binding, into Spring Boot, boosting system performance by 25% and enhancing user experience.",
-        "Developed scalable microservices and UI features using REST APIs, Spring Boot, and JavaScript, reducing claim delays by 15% and ensuring regulatory compliance.",
-        "Achieved a 95%+ sprint delivery rate in an onsite-offshore model, modernising legacy systems and cutting maintenance costs by 18%."
-    ],
-    "skills": ["Java", "Spring Boot", "React", "Github", "Jenkins", "Maven", "IntelliJ", "Rest Assured", "Rally"]
-}, {
-    "date": "Mar 2021 - Aug 2021",
-    "role": "Internship - MainSpring",
-    "company": "Cognizant",
-    "description": [
-        "Played a key role in Cognizant’s Internal Framework Hub (MainSpring) by developing and enhancing features, optimising workflows, and improving system efficiency to support internal business processes and client-facing applications."
-    ],
-    "skills": ["Java", "Spring Boot", "PostgreSQL", "Github", "Maven", "IntelliJ"]
-}]
+export const experiences: Experience[] = [
+    {
+        date: "Jan 2024 - Jun 2025",
+        role: "Software Developer - Payabbhi",
+        company: "RS Software",
+        description: [
+            "Engineered core payment flows — Authorization, Sale, Refund, and Void — integrating with major card networks (VISA, Mastercard) and processors (TSYS, WorldPay), supporting production workloads in the thousands of TPS range.",
+            "Redesigned the batch settlement pipeline by introducing a clearance table and a recursive settlement handler, improving throughput by 40% and enabling batches to reliably handle 1,500+ transactions.",
+            "Developed a Kafka-driven Notification Service that processes over 1M+ monthly events across emails, SMS, reports, and downstream operations.",
+            "Built a Redis-backed virtual terminal and hosted payment page with TTL-based session handling, reducing stale payment sessions by 30% and improving transaction reliability.",
+            "Collaborated with DevOps to containerize services using Docker and integrate CI/CD workflows with Jenkins, reducing deployment time from hours to minutes.",
+            "Mentored junior developers, reviewed PRs, and introduced static analysis practices to improve code quality and consistency across services."
+        ],
+        skills: [
+            "Java", "Spring Boot", "JPA", "Kafka", "Redis", "Docker",
+            "GitHub", "Jenkins", "Maven", "IntelliJ", "Jira"
+        ]
+    },
+    {
+        date: "Sep 2021 - Jul 2023",
+        role: "Programmer Analyst - AIG Insurance Europe",
+        company: "Cognizant",
+        description: [
+            "Modernised critical insurance modules (booking, binding, claims) by migrating them from monolithic Java EE applications to Spring Boot microservices, reducing average API latency by 25%.",
+            "Designed and implemented RESTful APIs enabling policy creation, updates, and renewals, increasing claim processing accuracy and reducing operational turnaround by 15%.",
+            "Collaborated with onsite architects and a 6+ member offshore team under an agile model, consistently achieving a 95%+ sprint delivery rate across multiple releases."
+        ],
+        skills: [
+            "Java", "Spring Boot", "React", "GitHub",
+            "Jenkins", "Maven", "IntelliJ", "Rest Assured", "Rally"
+        ]
+    },
+    {
+        date: "Mar 2021 - Aug 2021",
+        role: "Internship - MainSpring",
+        company: "Cognizant",
+        description: [
+            "Developed and enhanced features for Cognizant’s Internal Framework Hub (MainSpring), improving workflow efficiency for internal business processes and client-facing applications.",
+            "Worked cross-functionally to document APIs and streamline framework usability for internal engineering teams."
+        ],
+        skills: ["Java", "Spring Boot", "PostgreSQL", "GitHub", "Maven", "IntelliJ"]
+    }
+];
 
 
 export const projects: Project[] = [
@@ -73,7 +84,7 @@ export const projects: Project[] = [
         name: "Quill Quest",
         type: "Personal Project",
         description: "A secure blog platform built with Spring Security, JWT, and MySQL, featuring full CRUD operations and comment functionality. Integrated Swagger for API documentation to streamline development and testing.",
-        tech: ["java", "spring boot", "mysql", "swagger"],
+        tech: ["java", "spring boot", "mysql", "swagger", "Git"],
         github: "https://github.com/rak626/QuillQuest",
         live: "#",
         image: "/photos/projects/quill-quest.png",
@@ -146,3 +157,6 @@ export const personalInfo: PersonalInfo = {
     }
 }
 
+export const resumeData = {
+    name: "Rakesh_Ghosh_Resume_4YoE.pdf",
+}

@@ -5,9 +5,10 @@ import Image from "next/image";
 import {motion} from "framer-motion";
 import Link from "next/link";
 import {Typewriter} from "react-simple-typewriter";
+import {resumeData} from "@/datas/data";
 
 const Hero = () => {
-    const MotionLink = motion(Link);
+    const MotionLink = motion.create(Link);
 
     return (
         <section className="w-full min-h-screen gradient-animate flex items-center">
@@ -55,7 +56,7 @@ const Hero = () => {
                         transition={{duration: 0.8, delay: 0.3}}
                     >
                         <motion.a
-                            href="/files/Rakesh_Ghosh_SDE2_4YoE.pdf"
+                            href={`/files/${resumeData.name}`}
                             whileHover={{scale: 1.05}}
                             whileTap={{scale: 0.95}}
                             className="px-6 sm:px-8 py-3 sm:py-4 rounded-lg bg-green-600 text-white text-base sm:text-lg font-medium hover:bg-green-700 transition-colors shadow-md"

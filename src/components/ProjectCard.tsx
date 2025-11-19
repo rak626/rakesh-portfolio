@@ -2,10 +2,10 @@
 
 import React from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
+import {motion} from "framer-motion";
 import SkillIcon from "@/components/SkillIcon";
-import { GetSkillIcon } from "@/utils/iconUtils";
-import { FaExternalLinkAlt, FaGithub } from "react-icons/fa";
+import {GetSkillIcon} from "@/utils/iconUtils";
+import {FaExternalLinkAlt, FaGithub} from "react-icons/fa";
 
 interface ProjectCardProps {
     project: {
@@ -18,15 +18,15 @@ interface ProjectCardProps {
     };
 }
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({project}) => {
     return (
         <div className="flex flex-col lg:flex-row items-center gap-x-16">
             {/* Left side: Sticky Description */}
             <motion.div
                 className="lg:w-3/4 w-full lg:sticky lg:top-24 p-6 rounded-xl"
-                initial={{ opacity: 0, x: -50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
+                initial={{opacity: 0, x: -50}}
+                whileInView={{opacity: 1, x: 0}}
+                transition={{duration: 0.6}}
             >
                 <h3 className="text-2xl font-bold mb-4">{project.name}</h3>
                 <p className="text-gray-700 mb-4">{project.description}</p>
@@ -60,7 +60,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             rel="noopener noreferrer"
                             className="text-gray-700 hover:text-gray-900 transition-colors"
                         >
-                            <FaGithub className="w-5 h-5" />
+                            <FaGithub className="w-5 h-5"/>
                         </a>
                     )}
                     {project.live && (
@@ -70,7 +70,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
                             rel="noopener noreferrer"
                             className="text-gray-700 hover:text-gray-900 transition-colors"
                         >
-                            <FaExternalLinkAlt className="w-5 h-5" />
+                            <FaExternalLinkAlt className="w-5 h-5"/>
                         </a>
                     )}
                 </div>
@@ -78,26 +78,21 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
 
             {/* Right side: Image */}
             <motion.div
-                className="lg:w-1/2 w-3/4 relative h-48 md:h-64 lg:h-72"
-                initial={{ opacity: 0, x: 50 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6 }}
+                className="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/2"
+                initial={{opacity: 0, x: 50}}
+                whileInView={{opacity: 1, x: 0}}
+                transition={{duration: 0.6}}
             >
-                <Image
-                    src={project.image ?? "/placeholder.png"}
-                    alt={project.name}
-                    fill
-                    style={{
-                        objectFit: "cover",
-                        borderRadius: "1rem",
-                        borderColor: "#16a34a",
-                        borderWidth: "2px",
-                        borderStyle: "solid",
-                    }}
-                    className="shadow-lg"
-                    placeholder="blur"
-                    blurDataURL="/placeholder.png"
-                />
+                <div className="relative w-full aspect-[4/3] md:aspect-[16/9] lg:aspect-[16/9]">
+                    <Image
+                        src={project.image ?? "/placeholder.png"}
+                        alt={project.name}
+                        fill
+                        className="object-cover shadow-lg rounded-xl border-2 border-green-600"
+                        placeholder="blur"
+                        blurDataURL="/placeholder.png"
+                    />
+                </div>
             </motion.div>
         </div>
     );
