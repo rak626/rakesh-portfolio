@@ -2,130 +2,43 @@
 
 import React, {useState, FormEvent} from "react";
 import {motion} from "framer-motion";
-import {Mail, MapPin, Send, CheckCircle} from "lucide-react";
+import {Mail, MapPin, MessageCircle, CheckCircle} from "lucide-react";
 import {FaGithub, FaLinkedin, FaTwitter} from "react-icons/fa";
 import {personalInfo} from "@/datas/data";
-
-function InputField({
-                        label,
-                        name,
-                        type = "text",
-                        placeholder,
-                        required = true,
-                        value,
-                        onChange,
-                    }: {
-    label: string;
-    name: string;
-    type?: string;
-    placeholder: string;
-    required?: boolean;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-}) {
-    return (
-        <div className="space-y-3 flex flex-col">
-            <label htmlFor={name} className="text-sm font-medium ml-4 text-[var(--text-primary)]">
-                {label} {required && <span className="text-red-500">*</span>}
-            </label>
-            <input
-                type={type}
-                id={name}
-                name={name}
-                placeholder={placeholder}
-                required={required}
-                value={value}
-                onChange={onChange}
-                className="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--accent-primary)]/20 transition-all"
-            />
-        </div>
-    );
-}
-
-function TextAreaField({
-                           label,
-                           name,
-                           placeholder,
-                           required = true,
-                           rows = 5,
-                           value,
-                           onChange,
-                       }: {
-    label: string;
-    name: string;
-    placeholder: string;
-    required?: boolean;
-    rows?: number;
-    value: string;
-    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-}) {
-    return (
-        <div className="space-y-3 flex flex-col">
-            <label htmlFor={name} className="text-sm font-medium ml-4 text-[var(--text-primary)]">
-                {label} {required && <span className="text-red-500">*</span>}
-            </label>
-            <textarea
-                id={name}
-                name={name}
-                placeholder={placeholder}
-                required={required}
-                rows={rows}
-                value={value}
-                onChange={onChange}
-                className="w-full px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/50 focus:outline-none focus:border-[var(--accent-primary)] focus:ring-2 focus:ring-[var(--accent-primary)]/20 transition-all resize-none"
-            />
-        </div>
-    );
-}
-
-function SocialLink({
-                        href,
-                        icon: Icon,
-                        label,
-                    }: {
-    href?: string;
-    icon: React.ElementType;
-    label: string;
-}) {
-    if (!href) return null;
-
-    return (
-        <motion.a
-            href={href}
-            target="_blank"
-            rel="noopener noreferrer"
-            whileHover={{scale: 1.02, x: 4}}
-            whileTap={{scale: 0.98}}
-            className="flex items-center gap-3 px-4 py-3 rounded-xl bg-[var(--bg-primary)] border border-[var(--border)] hover:border-[var(--accent-primary)] transition-all group"
-        >
-            <div
-                className="p-2 rounded-lg bg-[var(--accent-primary)]/10 group-hover:bg-[var(--accent-primary)]/20 transition-colors">
-                <Icon className="w-5 h-5 text-[var(--accent-primary)]"/>
-            </div>
-            <span className="text-[var(--text-primary)] font-medium">{label}</span>
-        </motion.a>
-    );
-}
+import InputField from "@/components/InputField";
+import TextAreaField from "@/components/TextAreaField";
+import SocialLink from "@/components/SocialLink";
+import PhoneInput from "@/components/ui/PhoneInput";
 
 export default function Contact() {
-    const [form, setForm] = useState({name: "", email: "", subject: "", message: ""});
+    const [form, setForm] = useState({
+        name: "",
+        email: "",
+        phone: {code: "IN", number: ""},
+        subject: "",
+        message: ""
+    });
     const [submitted, setSubmitted] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setForm({...form, [e.target.name]: e.target.value});
     };
 
-    const handleSubmit = async (e: FormEvent) => {
+    const handlePhoneChange = (phone: { code: string; number: string }) => {
+        setForm({...form, phone});
+    };
+
+    const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
-        setSubmitting(true);
 
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        const phone = personalInfo.phone.replace(/\D/g, "");
+        const message = `Hi Rakesh!%0A%0A*Name:* ${form.name}%0A*Email:* ${form.email}%0A*Phone:* +${form.phone.code === "IN" ? "91" : ""}${form.phone.number}%0A*Subject:* ${form.subject}%0A%0A*Message:*%0A${form.message}`;
+        const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
 
+        window.open(whatsappUrl, "_blank");
+
+        setForm({name: "", email: "", phone: {code: "IN", number: ""}, subject: "", message: ""});
         setSubmitted(true);
-        setSubmitting(false);
-        setForm({name: "", email: "", subject: "", message: ""});
-
         setTimeout(() => setSubmitted(false), 5000);
     };
 
@@ -172,7 +85,7 @@ export default function Contact() {
                                 >
                                     <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0"/>
                                     <span className="text-green-500 font-medium text-sm">
-                    Message sent successfully! I&apos;ll get back to you soon.
+                    Opening WhatsApp! Send the message from there.
                   </span>
                                 </motion.div>
                             )}
@@ -195,6 +108,12 @@ export default function Contact() {
                                         onChange={handleChange}
                                     />
                                 </div>
+                                <PhoneInput
+                                    label="Phone Number"
+                                    name="phone"
+                                    value={form.phone}
+                                    onChange={handlePhoneChange}
+                                />
                                 <InputField
                                     label="Subject"
                                     name="subject"
@@ -213,37 +132,12 @@ export default function Contact() {
 
                                 <motion.button
                                     type="submit"
-                                    disabled={submitting}
                                     whileHover={{scale: 1.02}}
                                     whileTap={{scale: 0.98}}
-                                    className="w-full py-4 rounded-xl bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-semibold flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="w-full py-4 rounded-xl bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-semibold flex items-center justify-center gap-2"
                                 >
-                                    {submitting ? (
-                                        <>
-                                            <svg className="animate-spin w-5 h-5" viewBox="0 0 24 24">
-                                                <circle
-                                                    className="opacity-25"
-                                                    cx="12"
-                                                    cy="12"
-                                                    r="10"
-                                                    stroke="currentColor"
-                                                    strokeWidth="4"
-                                                    fill="none"
-                                                />
-                                                <path
-                                                    className="opacity-75"
-                                                    fill="currentColor"
-                                                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                                />
-                                            </svg>
-                                            Sending...
-                                        </>
-                                    ) : (
-                                        <>
-                                            <Send className="w-5 h-5"/>
-                                            Send Message
-                                        </>
-                                    )}
+                                    <MessageCircle className="w-5 h-5"/>
+                                    Send via WhatsApp
                                 </motion.button>
                             </form>
                         </div>
