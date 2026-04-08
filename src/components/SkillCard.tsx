@@ -15,7 +15,7 @@ const skillCardVariants: Variants = {
     visible: {opacity: 1, scale: 1, transition: {type: "spring", stiffness: 100}},
 };
 
-const SkillCard: React.FC<SkillCardProps> = ({name, rating, icon}) => (
+const SkillCard: React.FC<SkillCardProps> = ({name, icon}) => (
     <motion.div
         className="flex flex-col items-center p-4 sm:p-6 bg-green-50 rounded-xl shadow-lg cursor-pointer w-full"
         variants={skillCardVariants}

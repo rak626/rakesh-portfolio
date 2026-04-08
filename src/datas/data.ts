@@ -1,20 +1,21 @@
-import {Experience, Institute, NavElement, PersonalInfo, Project, Skill} from "@/utils/types/types";
+import {Experience, Institute, NavElement, PersonalInfo, Project, Skill, BlogPost} from "@/utils/types/types";
 
 export const navElements: NavElement[] = [{
     name: "Home", slug: "/"
 }, {
     name: "Skills", slug: "/skills"
 }, {
-    name: "Experiences", slug: "/experiences"
+    name: "Experience", slug: "/experience"
 }, {
     name: "Projects", slug: "/projects"
 }, {
     name: "Education", slug: "/education"
 }, {
-    name: "Contact Me", slug: "/contact"
+    name: "Blog", slug: "/blog"
+}, {
+    name: "Contact", slug: "/contact"
 },];
 
-// Skills data categorized, need to update icons in iconUtils if skills are changed
 export const skillsData: Record<string, Skill[]> = {
     "Programming Languages": [{name: "Java", rating: 5}, {name: "C/C++", rating: 4}, {name: "JavaScript", rating: 4},],
     "Frameworks & Tools": [{name: "Spring Boot", rating: 5}, {name: "React", rating: 4}, {
@@ -71,7 +72,7 @@ export const experiences: Experience[] = [
         role: "Internship - MainSpring",
         company: "Cognizant",
         description: [
-            "Developed and enhanced features for Cognizant’s Internal Framework Hub (MainSpring), improving workflow efficiency for internal business processes and client-facing applications.",
+            "Developed and enhanced features for Cognizant's Internal Framework Hub (MainSpring), improving workflow efficiency for internal business processes and client-facing applications.",
             "Worked cross-functionally to document APIs and streamline framework usability for internal engineering teams."
         ],
         skills: ["Java", "Spring Boot", "PostgreSQL", "GitHub", "Maven", "IntelliJ"]
@@ -83,40 +84,95 @@ export const projects: Project[] = [
     {
         name: "Quill Quest",
         type: "Personal Project",
-        description: "A secure blog platform built with Spring Security, JWT, and MySQL, featuring full CRUD operations and comment functionality. Integrated Swagger for API documentation to streamline development and testing.",
+        description: "A secure blog platform built with Spring Security, JWT, and MySQL, featuring full CRUD operations and comment functionality.",
         tech: ["java", "spring boot", "mysql", "swagger", "Git"],
         github: "https://github.com/rak626/QuillQuest",
         live: "#",
         image: "/photos/projects/quill-quest.png",
+        problem: "Creating a personal blog platform that needed secure authentication, user management, and a smooth writing experience without relying on third-party platforms.",
+        solution: "Built a full-stack application with JWT-based authentication, role-based access control, and a clean REST API. Implemented MySQL for data persistence with proper indexing for search performance.",
+        impact: [
+            "Learned Spring Security best practices",
+            "Implemented secure password hashing and JWT token management",
+            "Created a reusable admin dashboard for content management"
+        ],
+        features: [
+            "User registration and login with JWT tokens",
+            "Blog post CRUD with rich text editor",
+            "Comment system with nested replies",
+            "Category and tag management",
+            "Search functionality"
+        ]
     },
     {
         name: "Pressio",
         type: "Freelance Project",
-        description: "A printing press order and delivery tracking platform built using Java, Spring Boot, React, and Next.js. Features include timeline tracking with SMS notifications, improving customer engagement.",
+        description: "A printing press order and delivery tracking platform built using Java, Spring Boot, React, and Next.js.",
         tech: ["java", "spring boot", "react", "next.js"],
         github: "https://github.com/rak626/PressioUI",
         live: "https://pressio-ui.vercel.app/",
         image: "/photos/projects/pressio.png",
+        problem: "Local printing businesses struggled with order management, customer tracking, and timely delivery notifications. Manual processes led to errors and customer dissatisfaction.",
+        solution: "Designed and developed a full-stack application with real-time order tracking, SMS notifications via Twilio, and an intuitive dashboard for order management.",
+        impact: [
+            "Reduced order processing time by 40%",
+            "Improved customer satisfaction with real-time updates",
+            "Enabled mobile access for delivery personnel"
+        ],
+        features: [
+            "Order placement with file upload",
+            "Real-time order status tracking",
+            "SMS notifications for status updates",
+            "Admin dashboard for order management",
+            "Customer order history"
+        ]
     },
     {
-        name: "Personal Portfolio Website",
+        name: "Personal Portfolio",
         type: "Personal Project",
-        description: "A modern, responsive portfolio website to showcase my projects and skills. Built with React, Tailwind CSS, and Next.js for optimal performance and SEO.",
+        description: "A modern, responsive portfolio website to showcase projects and skills. Built with Next.js 15, Tailwind CSS, and Framer Motion.",
         tech: ["react", "tailwind css", "next.js"],
         github: "https://github.com/rak626/rakesh-portfolio",
         live: "https://www.rakeshghosh.co.in/",
         image: "/photos/projects/portfolio.png",
+        problem: "Needed a professional online presence that stands out, showcases technical skills, and provides an easy way for recruiters to learn about my work.",
+        solution: "Built a single-page portfolio with smooth scrolling, dark mode support, and interactive animations. Used Next.js for SEO optimization and Vercel for fast deployment.",
+        impact: [
+            "Improved professional visibility",
+            "Demonstrates frontend development skills",
+            "Provides easy contact channel for recruiters"
+        ],
+        features: [
+            "Dark/Light mode with system preference detection",
+            "Smooth scroll navigation",
+            "Animated section reveals",
+            "Responsive design for all devices",
+            "Contact form integration"
+        ]
     },
     {
-        name: "RealTime Pizza Delivery Application",
+        name: "RealTime Pizza Delivery",
         type: "Personal Project",
-        description: "A real-time pizza delivery application built with Node.js, Express, and Socket.io. " +
-            "Features include live order tracking, real-time updates, and a user-friendly interface for seamless ordering experience.",
+        description: "A real-time pizza delivery application built with Node.js, Express, and Socket.io.",
         tech: ["node.js", "express", "socket.io"],
         github: "https://github.com/rak626/Realtime-Pizza-Delivary-App#",
         live: "https://realtime-pizza-delivary-app.onrender.com/",
         image: "/photos/projects/pizza-delivery.png",
-    },];
+        problem: "Traditional food ordering systems lacked real-time updates. Customers had no visibility into order preparation and delivery status.",
+        solution: "Created a real-time application using Socket.io for instant updates. Implemented order tracking, live location updates, and instant status changes.",
+        impact: [
+            "Gained expertise in real-time communication",
+            "Learned Socket.io patterns for live updates",
+            "Created seamless user experience with instant feedback"
+        ],
+        features: [
+            "Real-time order tracking",
+            "Live delivery status updates",
+            "Interactive menu with customization",
+            "Cart management",
+            "Order history"
+        ]
+    }];
 
 
 export const institutions: Institute[] = [{
@@ -140,13 +196,13 @@ export const institutions: Institute[] = [{
     duration: "2015",
     grade: "Percentage: 89.4%",
     highlights: ["Excelled in Mathematics and Science subjects.", "Active participant in extracurricular activities like sports, Science Fair etc.",],
-},];
+}];
 
 export const personalInfo: PersonalInfo = {
     name: "Rakesh Ghosh",
     role: "Software Engineer",
     email: "rakeshacot@gmail.com",
-    phone: "+91 7003272222",
+    phone: "7001074104",
     address: "Kolkata, India",
     socials: {
         linkedin: "https://www.linkedin.com/in/ghoshrakesh626/",
@@ -154,9 +210,37 @@ export const personalInfo: PersonalInfo = {
         twitter: "https://x.com/RakeshG51567945",
         facebook: "https://www.facebook.com/rakesh.ghosh.777363",
         instagram: "https://www.instagram.com/rakesh_ghosh_400/",
-    }
+    },
+    totalYoE: 4,
 }
 
 export const resumeData = {
     name: "Rakesh_Ghosh_Resume_4YoE.pdf",
 }
+
+export const blogPosts: BlogPost[] = [
+    {
+        slug: "getting-started-with-microservices",
+        title: "Getting Started with Microservices Architecture",
+        excerpt: "A comprehensive guide to understanding microservices, their benefits, and how to get started with building your first microservice application.",
+        date: "2024-03-15",
+        readingTime: "8 min read",
+        category: "Backend"
+    },
+    {
+        slug: "spring-boot-best-practices",
+        title: "Spring Boot Best Practices for Production",
+        excerpt: "Essential best practices for building robust, scalable Spring Boot applications that are ready for production environments.",
+        date: "2024-02-20",
+        readingTime: "12 min read",
+        category: "Java"
+    },
+    {
+        slug: "building-real-time-applications",
+        title: "Building Real-Time Applications with Socket.io",
+        excerpt: "Learn how to implement real-time features like live notifications, chat, and tracking in your web applications.",
+        date: "2024-01-10",
+        readingTime: "10 min read",
+        category: "Node.js"
+    }
+];
