@@ -1,24 +1,19 @@
 import type {Metadata} from "next";
-import {Geist, Geist_Mono} from "next/font/google";
+import {JetBrains_Mono} from "next/font/google";
 import "./globals.css";
 import {Analytics} from "@vercel/analytics/react";
 import {SpeedInsights} from "@vercel/speed-insights/next";
 import {ThemeProvider} from "@/contexts/ThemeProvider";
-import CustomCursor from "@/components/CustomCursor";
 import React from "react";
 
-const geistSans = Geist({
-    variable: "--font-sans",
-    subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
+const jetbrainsMono = JetBrains_Mono({
     variable: "--font-mono",
     subsets: ["latin"],
+    weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-    title: "Rakesh Ghosh | Software Engineer",
+    title: "Rakesh Ghosh | Terminal Portfolio",
     description: "Software Engineer with 4+ years of experience building scalable payment systems and microservices. Specializing in Java, Spring Boot, and distributed systems.",
     keywords: ["Software Engineer", "Java Developer", "Spring Boot", "Backend Developer", "Kolkata"],
     authors: [{name: "Rakesh Ghosh"}],
@@ -26,7 +21,7 @@ export const metadata: Metadata = {
         icon: "/favicon.svg",
     },
     openGraph: {
-        title: "Rakesh Ghosh | Software Engineer",
+        title: "Rakesh Ghosh | Terminal Portfolio",
         description: "Software Engineer with 4+ years of experience building scalable payment systems and microservices.",
         type: "website",
     },
@@ -40,10 +35,9 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
         <body
-            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+            className={`${jetbrainsMono.variable} antialiased`}
         >
         <ThemeProvider>
-            <CustomCursor/>
             {children}
             <Analytics/>
             <SpeedInsights/>

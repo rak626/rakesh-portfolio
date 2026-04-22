@@ -7,12 +7,12 @@ import {ThemeToggle} from "@/components/ui/ThemeToggle";
 import MobileNav from "./MobileNav";
 
 const navItems = [
-    {name: "Home", href: "#home"},
-    {name: "About", href: "#about"},
-    {name: "Skills", href: "#skills"},
-    {name: "Projects", href: "#projects"},
-    {name: "Experience", href: "#experience"},
-    {name: "Contact", href: "#contact"},
+    {name: "home", href: "#home", cmd: "ls"},
+    {name: "about", href: "#about", cmd: "cat"},
+    {name: "skills", href: "#skills", cmd: "npm"},
+    {name: "projects", href: "#projects", cmd: "cd"},
+    {name: "experience", href: "#experience", cmd: "history"},
+    {name: "contact", href: "#contact", cmd: "curl"},
 ];
 
 export default function Navbar() {
@@ -53,17 +53,19 @@ export default function Navbar() {
             <motion.nav
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
                     scrolled
-                        ? "bg-[var(--bg-primary)]/80 backdrop-blur-xl border-b border-[var(--border)] shadow-lg"
+                        ? "bg-[var(--bg-primary)]/90 backdrop-blur-xl"
                         : "bg-transparent"
                 }`}
             >
-                <motion.div
-                    className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] origin-left"
-                    style={{scaleX}}
-                />
+                {scrolled && (
+                    <motion.div
+                        className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] origin-left"
+                        style={{scaleX}}
+                    />
+                )}
 
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-16 md:h-20">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-14">
                         <motion.div
                             initial={{opacity: 0, x: -20}}
                             animate={{opacity: 1, x: 0}}
@@ -77,14 +79,12 @@ export default function Navbar() {
                                 }}
                                 className="group flex items-center gap-2"
                             >
-                <span
-                    className="text-xl md:text-2xl font-bold bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] bg-clip-text text-transparent">
-                  RG
-                </span>
-                                <span
-                                    className="hidden sm:inline text-sm font-medium text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors">
-                  Rakesh Ghosh
-                </span>
+                                <span className="text-[var(--accent-primary)] neon-text font-bold text-lg">
+                                    ~$
+                                </span>
+                                <span className="hidden sm:inline text-xs text-[var(--text-secondary)]">
+                                    ./portfolio
+                                </span>
                             </Link>
                         </motion.div>
 
@@ -103,28 +103,25 @@ export default function Navbar() {
                                         animate={{opacity: 1, y: 0}}
                                         transition={{duration: 0.3, delay: index * 0.05}}
                                         onClick={() => scrollToSection(item.href)}
-                                        className={`relative px-4 py-2 text-sm font-medium transition-colors ${
+                                        className={`relative px-3 py-1.5 text-sm font-medium transition-colors rounded ${
                                             isActive
-                                                ? "text-[var(--accent-primary)]"
+                                                ? "text-[var(--bg-primary)] bg-[var(--accent-primary)]"
                                                 : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                                         }`}
                                     >
+                                        <span className="text-xs opacity-60 mr-1">
+                                            {isActive ? "" : item.cmd}
+                                        </span>
                                         {item.name}
-                                        {isActive && (
-                                            <motion.div
-                                                layoutId="navbar-active"
-                                                className="absolute bottom-0 left-4 right-4 h-[2px] bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] rounded-full"
-                                            />
-                                        )}
                                     </motion.button>
                                 );
                             })}
-                            <div className="ml-4 pl-4 border-l border-[var(--border)]">
+                            <div className="ml-3 pl-3 border-l border-[var(--border)]">
                                 <ThemeToggle/>
                             </div>
                         </motion.div>
 
-                        <div className="flex items-center gap-3 lg:hidden">
+                        <div className="flex items-center gap-2 lg:hidden">
                             <ThemeToggle/>
                             <MobileNav items={navItems} onItemClick={scrollToSection}/>
                         </div>
