@@ -1,321 +1,236 @@
 "use client";
 
-import {useState} from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import {motion, AnimatePresence} from "framer-motion";
-import {X, ExternalLink, ArrowRight, Lightbulb, Target, Trophy} from "lucide-react";
-import {FaGithub} from "react-icons/fa";
-import {projects} from "@/datas/data";
-import {GetSkillIcon} from "@/utils/iconUtils";
-import {Project} from "@/utils/types/types";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { X, ExternalLink, ArrowRight, Lightbulb, Target, Trophy } from "lucide-react";
+import { FaGithub } from "react-icons/fa";
+import { projects } from "@/datas/data";
+import { GetSkillIcon } from "@/utils/iconUtils";
+import { Project } from "@/utils/types/types";
 
-function ProjectCard({project, onClick}: { project: Project; onClick: () => void }) {
-    return (
-        <motion.div
-            layoutId={project.name}
-            whileHover={{y: -5}}
-            onClick={onClick}
-            className="group cursor-pointer"
-        >
-            <div
-                className="relative overflow-hidden rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--accent-primary)]/50 transition-all">
-                <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                        src={project.image || "/placeholder.png"}
-                        alt={project.name}
-                        fill
-                        className="object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div
-                        className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-transparent opacity-80"/>
-                </div>
+function ProjectCard({ project, onClick, index }: { project: Project; onClick: () => void; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"],
+  });
 
-                <div className="p-6">
-                    <div className="flex items-center gap-2 mb-2">
-            <span
-                className="px-3 py-1 rounded-full bg-[var(--accent-primary)]/10 text-[var(--accent-primary)] text-xs font-medium">
-              {project.type}
-            </span>
-                    </div>
-                    <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">
-                        {project.name}
-                    </h3>
-                    <p className="text-[var(--text-secondary)] text-sm line-clamp-2 mb-4">
-                        {project.description}
-                    </p>
+  const y = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
-                    <div className="flex flex-wrap gap-2 mb-4">
-                        {project.tech.slice(0, 4).map((tech) => {
-                            const icon = GetSkillIcon[tech.toLowerCase()];
-                            return (
-                                <span
-                                    key={tech}
-                                    className="flex items-center gap-1.5 px-2 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs text-[var(--text-secondary)]"
-                                >
-                  {icon && (
-                      <span className="w-3.5 h-3.5 text-[var(--accent-primary)]">
-                      {icon}
-                    </span>
-                  )}
-                                    {tech}
-                </span>
-                            );
-                        })}
-                        {project.tech.length > 4 && (
-                            <span
-                                className="px-2 py-1 rounded-lg bg-[var(--bg-tertiary)] text-xs text-[var(--text-secondary)]">
-                +{project.tech.length - 4}
-              </span>
-                        )}
-                    </div>
-
-                    <div className="flex items-center gap-4 text-[var(--text-secondary)]">
-                        {project.github && (
-                            <a
-                                href={project.github}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="hover:text-[var(--accent-primary)] transition-colors"
-                            >
-                                <FaGithub className="w-5 h-5"/>
-                            </a>
-                        )}
-                        {project.live && project.live !== "#" && (
-                            <a
-                                href={project.live}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                onClick={(e) => e.stopPropagation()}
-                                className="hover:text-[var(--accent-primary)] transition-colors"
-                            >
-                                <ExternalLink className="w-5 h-5"/>
-                            </a>
-                        )}
-                        <span
-                            className="ml-auto text-sm font-medium text-[var(--accent-primary)] flex items-center gap-1 group-hover:gap-2 transition-all">
-              View Details
-              <ArrowRight className="w-4 h-4"/>
-            </span>
-                    </div>
-                </div>
+  return (
+    <motion.div
+      ref={cardRef}
+      style={{ y }}
+      layoutId={project.name}
+      onClick={onClick}
+      className="group relative cursor-pointer overflow-hidden border border-border/50 bg-bg-secondary/30 backdrop-blur-md"
+    >
+      <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-accent-primary z-20 opacity-0 group-hover:opacity-100 transition-opacity" />
+      <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-accent-secondary z-20 opacity-0 group-hover:opacity-100 transition-opacity" />
+      
+      <div className="relative aspect-[16/9] overflow-hidden">
+        <Image
+          src={project.image || "/placeholder.png"}
+          alt={project.name}
+          fill
+          className="object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-bg-primary via-bg-primary/20 to-transparent opacity-90 group-hover:opacity-40 transition-opacity" />
+        
+        <div className="absolute top-4 right-4 flex gap-2 z-10">
+          {project.tech.slice(0, 3).map((tech) => (
+            <div key={tech} className="w-8 h-8 rounded-full bg-bg-primary/80 backdrop-blur-sm flex items-center justify-center p-1.5 border border-border">
+              {GetSkillIcon[tech.toLowerCase()]}
             </div>
-        </motion.div>
-    );
+          ))}
+        </div>
+      </div>
+
+      <div className="p-8 relative">
+        <div className="flex items-center gap-4 mb-4">
+          <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-accent-primary">
+            Project // 0{index + 1}
+          </span>
+          <div className="h-px flex-1 bg-border/50" />
+        </div>
+
+        <h3 className="text-2xl font-black text-text-primary mb-3 uppercase tracking-tighter group-hover:text-accent-primary transition-colors">
+          {project.name}
+        </h3>
+        
+        <p className="text-text-secondary text-sm line-clamp-2 mb-6 font-medium leading-relaxed">
+          {project.description}
+        </p>
+
+        <div className="flex items-center justify-between pt-4 border-t border-border/50">
+          <div className="flex gap-4">
+            {project.github && <FaGithub className="w-5 h-5 text-text-secondary hover:text-accent-primary transition-colors" />}
+            {project.live && project.live !== "#" && <ExternalLink className="w-5 h-5 text-text-secondary hover:text-accent-primary transition-colors" />}
+          </div>
+          <div className="flex items-center gap-2 font-mono text-[10px] font-bold uppercase tracking-widest text-accent-primary group-hover:translate-x-2 transition-transform">
+            Execute Detail <ArrowRight className="w-4 h-4" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
 }
 
-function CaseStudyModal({
-                            project,
-                            onClose,
-                        }: {
-    project: Project;
-    onClose: () => void;
-}) {
-    return (
-        <AnimatePresence>
-            <motion.div
-                initial={{opacity: 0}}
-                animate={{opacity: 1}}
-                exit={{opacity: 0}}
-                className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm"
+function CaseStudyModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  return (
+    <AnimatePresence>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="fixed inset-0 z-[150] flex items-center justify-center p-4 md:p-12 bg-bg-primary/95 backdrop-blur-xl"
+        onClick={onClose}
+      >
+        <motion.div
+          layoutId={project.name}
+          onClick={(e) => e.stopPropagation()}
+          className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-bg-secondary border-x-2 border-accent-primary p-0 md:p-1 shadow-2xl"
+        >
+          <div className="p-8 md:p-12 space-y-10 bg-bg-secondary">
+              <button
                 onClick={onClose}
-            >
-                <motion.div
-                    layoutId={project.name}
-                    onClick={(e) => e.stopPropagation()}
-                    className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-[var(--bg-primary)] rounded-2xl border border-[var(--border)]"
-                >
-                    <div className="relative aspect-video">
-                        <Image
-                            src={project.image || "/placeholder.png"}
-                            alt={project.name}
-                            fill
-                            className="object-cover"
-                        />
-                        <div
-                            className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)] via-transparent to-transparent"/>
-                    </div>
+                className="absolute top-6 right-6 p-3 rounded-none bg-text-primary text-bg-primary hover:bg-accent-primary transition-colors z-20"
+              >
+                <X className="w-6 h-6" />
+              </button>
 
-                    <button
-                        onClick={onClose}
-                        className="absolute top-4 right-4 p-2 rounded-full bg-[var(--bg-primary)]/80 backdrop-blur-sm hover:bg-[var(--bg-secondary)] transition-colors"
-                    >
-                        <X className="w-5 h-5 text-[var(--text-primary)]"/>
-                    </button>
-
-                    <div className="p-8 -mt-20 relative z-10">
-            <span
-                className="inline-block px-3 py-1 rounded-full bg-[var(--accent-primary)] text-white text-sm font-medium mb-4">
-              {project.type}
-            </span>
-                        <h2 className="text-3xl md:text-4xl font-bold text-[var(--text-primary)] mb-4">
-                            {project.name}
-                        </h2>
-
-                        <div className="flex flex-wrap gap-3 mb-8">
-                            {project.tech.map((tech) => {
-                                const icon = GetSkillIcon[tech.toLowerCase()];
-                                return (
-                                    <span
-                                        key={tech}
-                                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[var(--bg-secondary)] border border-[var(--border)] text-sm text-[var(--text-secondary)]"
-                                    >
-                    {icon && (
-                        <span className="w-4 h-4 text-[var(--accent-primary)]">
-                        {icon}
-                      </span>
-                    )}
-                                        {tech}
+              <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                  <span className="font-mono text-xs font-bold text-accent-primary tracking-widest uppercase">
+                    Case Study // System Analysis
                   </span>
-                                );
-                            })}
-                        </div>
+                  <div className="h-px flex-1 bg-border/50" />
+                </div>
+                <h2 className="text-4xl md:text-6xl font-black text-text-primary uppercase tracking-tighter">
+                  {project.name}
+                </h2>
+              </div>
 
-                        {project.problem && (
-                            <div className="mb-8">
-                                <div className="flex items-center gap-2 mb-3">
-                                    <Lightbulb className="w-5 h-5 text-[var(--accent-primary)]"/>
-                                    <h3 className="text-lg font-semibold text-[var(--text-primary)]">
-                                        The Problem
-                                    </h3>
-                                </div>
-                                <p className="text-[var(--text-secondary)]">{project.problem}</p>
-                            </div>
-                        )}
+              <div className="flex flex-wrap gap-2">
+                {project.tech.map((tech) => (
+                  <span key={tech} className="px-3 py-1 bg-bg-tertiary border border-border font-mono text-[10px] font-bold uppercase text-text-secondary">
+                    {tech}
+                  </span>
+                ))}
+              </div>
 
-                        {project.solution && (
-                            <div className="mb-8">
-                                <div className="flex items-center gap-2 mb-3">
-                                    <Target className="w-5 h-5 text-[var(--accent-primary)]"/>
-                                    <h3 className="text-lg font-semibold text-[var(--text-primary)]">
-                                        The Solution
-                                    </h3>
-                                </div>
-                                <p className="text-[var(--text-secondary)]">{project.solution}</p>
-                            </div>
-                        )}
-
-                        {project.impact && project.impact.length > 0 && (
-                            <div className="mb-8">
-                                <div className="flex items-center gap-2 mb-3">
-                                    <Trophy className="w-5 h-5 text-[var(--accent-primary)]"/>
-                                    <h3 className="text-lg font-semibold text-[var(--text-primary)]">
-                                        Impact & Learnings
-                                    </h3>
-                                </div>
-                                <ul className="space-y-2">
-                                    {project.impact.map((item, i) => (
-                                        <li key={i} className="flex items-start gap-3 text-[var(--text-secondary)]">
-                                            <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] mt-2"/>
-                                            {item}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-
-                        {project.features && project.features.length > 0 && (
-                            <div className="mb-8">
-                                <h3 className="text-lg font-semibold text-[var(--text-primary)] mb-3">
-                                    Key Features
-                                </h3>
-                                <ul className="grid md:grid-cols-2 gap-2">
-                                    {project.features.map((feature, i) => (
-                                        <li
-                                            key={i}
-                                            className="flex items-center gap-2 text-[var(--text-secondary)]"
-                                        >
-                                            <span className="w-1.5 h-1.5 rounded-full bg-green-500"/>
-                                            {feature}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </div>
-                        )}
-
-                        <div className="flex gap-4 pt-4 border-t border-[var(--border)]">
-                            {project.github && (
-                                <a
-                                    href={project.github}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--accent-primary)] transition-colors"
-                                >
-                                    <FaGithub className="w-5 h-5"/>
-                                    View Source
-                                </a>
-                            )}
-                            {project.live && project.live !== "#" && (
-                                <a
-                                    href={project.live}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white"
-                                >
-                                    <ExternalLink className="w-5 h-5"/>
-                                    Live Demo
-                                </a>
-                            )}
-                        </div>
+              <div className="grid gap-8">
+                {project.problem && (
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 font-mono text-xs font-black uppercase text-text-primary">
+                      <Lightbulb className="w-4 h-4 text-accent-primary" /> The Challenge
                     </div>
-                </motion.div>
-            </motion.div>
-        </AnimatePresence>
-    );
+                    <p className="text-text-secondary leading-relaxed font-medium">{project.problem}</p>
+                  </div>
+                )}
+
+                {project.solution && (
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 font-mono text-xs font-black uppercase text-text-primary">
+                      <Target className="w-4 h-4 text-accent-primary" /> Implementation
+                    </div>
+                    <p className="text-text-secondary leading-relaxed font-medium">{project.solution}</p>
+                  </div>
+                )}
+                
+                {project.impact && project.impact.length > 0 && (
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-2 font-mono text-xs font-black uppercase text-text-primary">
+                      <Trophy className="w-4 h-4 text-accent-primary" /> Outcome
+                    </div>
+                    <ul className="grid gap-2">
+                      {project.impact.map((item, i) => (
+                        <li key={i} className="flex items-start gap-3 text-sm text-text-secondary font-medium">
+                          <span className="text-accent-primary font-bold mt-0.5">»</span>
+                          {item}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+
+              <div className="flex gap-4 pt-10 border-t border-border">
+                {project.github && (
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-3 py-4 bg-text-primary text-bg-primary font-mono text-xs font-black uppercase tracking-widest hover:bg-accent-primary transition-colors"
+                  >
+                    <FaGithub className="w-5 h-5" /> Repository
+                  </a>
+                )}
+                {project.live && project.live !== "#" && (
+                  <a
+                    href={project.live}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-3 py-4 bg-accent-primary text-white font-mono text-xs font-black uppercase tracking-widest hover:bg-accent-secondary transition-colors"
+                  >
+                    <ExternalLink className="w-5 h-5" /> Deployment
+                  </a>
+                )}
+              </div>
+            </div>
+        </motion.div>
+      </motion.div>
+    </AnimatePresence>
+  );
 }
 
 export default function Projects() {
-    const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-    return (
-        <section id="projects" className="relative py-24 lg:py-32 bg-[var(--bg-primary)]">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                    initial={{opacity: 0, y: 20}}
-                    whileInView={{opacity: 1, y: 0}}
-                    viewport={{once: true}}
-                    className="text-center mb-16"
-                >
-          <span className="text-[var(--accent-primary)] font-medium mb-2 block">
-            Featured Work
+  useEffect(() => {
+    if (selectedProject) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [selectedProject]);
+
+  return (
+    <section id="projects" className="section-container bg-bg-primary relative z-10">
+      <div className="max-w-7xl mx-auto">
+        <div className="mb-20 space-y-4">
+          <span className="text-accent-primary font-mono text-xs font-bold tracking-[0.5em] uppercase">
+            {"// Selected Artifacts"}
           </span>
-                    <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)]">
-                        Projects
-                    </h2>
-                    <div
-                        className="mt-4 w-20 h-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] mx-auto rounded-full"/>
-                    <p className="mt-6 text-[var(--text-secondary)] max-w-2xl mx-auto">
-                        A selection of projects that showcase my skills in backend development,
-                        system design, and full-stack applications.
-                    </p>
-                </motion.div>
+          <h2 className="text-4xl md:text-6xl font-black text-text-primary tracking-tighter uppercase">
+            Featured <span className="gradient-text">Developments</span>
+          </h2>
+        </div>
 
-                <div className="grid md:grid-cols-2 gap-8">
-                    {projects.map((project, index) => (
-                        <motion.div
-                            key={project.name}
-                            initial={{opacity: 0, y: 30}}
-                            whileInView={{opacity: 1, y: 0}}
-                            viewport={{once: true}}
-                            transition={{delay: index * 0.1}}
-                        >
-                            <ProjectCard
-                                project={project}
-                                onClick={() => setSelectedProject(project)}
-                            />
-                        </motion.div>
-                    ))}
-                </div>
+        <div className="grid md:grid-cols-2 gap-12">
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={project.name}
+              project={project}
+              index={index}
+              onClick={() => setSelectedProject(project)}
+            />
+          ))}
+        </div>
 
-                <AnimatePresence>
-                    {selectedProject && (
-                        <CaseStudyModal
-                            project={selectedProject}
-                            onClose={() => setSelectedProject(null)}
-                        />
-                    )}
-                </AnimatePresence>
-            </div>
-        </section>
-    );
+        <AnimatePresence>
+          {selectedProject && (
+            <CaseStudyModal
+              project={selectedProject}
+              onClose={() => setSelectedProject(null)}
+            />
+          )}
+        </AnimatePresence>
+      </div>
+    </section>
+  );
 }

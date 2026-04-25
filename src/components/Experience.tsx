@@ -1,186 +1,163 @@
 "use client";
 
-import {useState} from "react";
-import {motion, useInView} from "framer-motion";
-import {useRef} from "react";
-import {ChevronDown, Building2, Calendar, Briefcase} from "lucide-react";
-import {experiences} from "@/datas/data";
-import {GetSkillIcon} from "@/utils/iconUtils";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { Briefcase } from "lucide-react";
+import { experiences } from "@/datas/data";
 
 function ExperienceCard({
-                            experience,
-                            index,
-                        }: {
-    experience: (typeof experiences)[0];
-    index: number;
+  experience,
+  index,
+}: {
+  experience: (typeof experiences)[0];
+  index: number;
 }) {
-    const [expanded, setExpanded] = useState(false);
-    const ref = useRef(null);
-    const isInView = useInView(ref, {once: true, margin: "-100px"});
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
-    return (
-        <motion.div
-            ref={ref}
-            initial={{opacity: 0, x: -50}}
-            animate={isInView ? {opacity: 1, x: 0} : {}}
-            transition={{duration: 0.5, delay: index * 0.1}}
-            className="relative"
-        >
-            <div className="flex gap-6">
-                <div className="flex flex-col items-center">
-                    <motion.div
-                        initial={{scale: 0}}
-                        animate={isInView ? {scale: 1} : {}}
-                        transition={{delay: index * 0.1 + 0.3, type: "spring"}}
-                        className="w-12 h-12 rounded-full bg-gradient-to-br from-[var(--accent-primary)] to-[var(--accent-secondary)] flex items-center justify-center z-10"
-                    >
-                        <Briefcase className="w-6 h-6 text-white"/>
-                    </motion.div>
-                    {index !== experiences.length - 1 && (
-                        <div
-                            className="w-[2px] flex-1 bg-gradient-to-b from-[var(--accent-primary)] to-[var(--accent-secondary)] opacity-30 my-4"/>
-                    )}
-                </div>
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, x: -50 }}
+      animate={isInView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 0.8, delay: index * 0.1 }}
+      className="relative pl-12 md:pl-0"
+    >
+      <div className="md:grid md:grid-cols-12 md:gap-12">
+        <div className="hidden md:flex md:col-span-3 justify-end pt-8">
+          <div className="text-right">
+            <span className="font-mono text-xs font-bold text-accent-primary block uppercase tracking-[0.2em]">
+              {experience.date}
+            </span>
+            <span className="font-mono text-[10px] text-text-secondary uppercase">
+              {"// Timeline_Node_"}{index}
+            </span>
+          </div>
+        </div>
 
-                <motion.div
-                    whileHover={{scale: 1.01}}
-                    className="flex-1 pb-8"
-                >
-                    <div
-                        className="p-6 rounded-2xl bg-[var(--bg-secondary)] border border-[var(--border)] hover:border-[var(--accent-primary)]/50 transition-all">
-                        <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
-                            <div>
-                                <h3 className="text-xl font-bold text-[var(--text-primary)]">
-                                    {experience.role}
-                                </h3>
-                                <div className="flex items-center gap-2 mt-1">
-                                    <Building2 className="w-4 h-4 text-[var(--accent-primary)]"/>
-                                    <span className="text-[var(--accent-primary)] font-medium">
-                    {experience.company}
-                  </span>
-                                </div>
-                            </div>
-                            <div className="flex items-center gap-4 text-sm text-[var(--text-secondary)]">
-                <span className="flex items-center gap-1">
-                  <Calendar className="w-4 h-4"/>
-                    {experience.date}
-                </span>
-                            </div>
-                        </div>
+        <div className="absolute left-4 md:static md:col-span-1 flex flex-col items-center">
+          <motion.div
+            initial={{ scale: 0 }}
+            animate={isInView ? { scale: 1 } : {}}
+            transition={{ delay: index * 0.1 + 0.3, type: "spring" }}
+            className="w-8 h-8 md:w-10 md:h-10 border-2 border-text-primary bg-bg-primary flex items-center justify-center z-10 rotate-45 group"
+          >
+            <Briefcase className="w-4 h-4 md:w-5 md:h-5 text-accent-primary -rotate-45" />
+          </motion.div>
+          {index !== experiences.length - 1 && (
+            <div className="w-[1px] flex-1 bg-border/50 md:my-4" />
+          )}
+        </div>
 
-                        <motion.div
-                            initial={false}
-                            animate={{height: expanded ? "auto" : 0, opacity: expanded ? 1 : 0}}
-                            className="overflow-hidden"
-                        >
-                            <ul className="space-y-3 mb-4">
-                                {experience.description.map((desc, i) => (
-                                    <li
-                                        key={i}
-                                        className="flex items-start gap-3 text-[var(--text-secondary)]"
-                                    >
-                                        <span
-                                            className="w-1.5 h-1.5 rounded-full bg-[var(--accent-primary)] mt-2 flex-shrink-0"/>
-                                        {desc}
-                                    </li>
-                                ))}
-                            </ul>
-
-                            {experience.skills && experience.skills.length > 0 && (
-                                <div className="flex flex-wrap gap-2 pt-4 border-t border-[var(--border)]">
-                                    {experience.skills.map((skill) => {
-                                        const icon = GetSkillIcon[skill.toLowerCase()];
-                                        return (
-                                            <span
-                                                key={skill}
-                                                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[var(--bg-tertiary)] text-sm text-[var(--text-secondary)]"
-                                            >
-                        {icon && (
-                            <span className="w-4 h-4 text-[var(--accent-primary)]">
-                            {icon}
-                          </span>
-                        )}
-                                                {skill}
-                      </span>
-                                        );
-                                    })}
-                                </div>
-                            )}
-                        </motion.div>
-
-                        <button
-                            onClick={() => setExpanded(!expanded)}
-                            className="flex items-center gap-2 text-[var(--accent-primary)] font-medium mt-4 hover:underline"
-                        >
-                            {expanded ? "Show Less" : "Show More"}
-                            <motion.div
-                                animate={{rotate: expanded ? 180 : 0}}
-                                transition={{duration: 0.2}}
-                            >
-                                <ChevronDown className="w-4 h-4"/>
-                            </motion.div>
-                        </button>
-                    </div>
-                </motion.div>
+        <div className="md:col-span-8 pb-12">
+          <div className="p-8 border-l-2 border-text-primary bg-bg-secondary/30 backdrop-blur-md relative overflow-hidden group">
+            <div className="absolute top-0 right-0 p-2 font-mono text-[10px] text-text-primary/10 select-none">
+              0x{index}A_LOG
             </div>
-        </motion.div>
-    );
+            
+            <div className="mb-6">
+              <h3 className="text-2xl font-black text-text-primary uppercase tracking-tighter mb-1">
+                {experience.role}
+              </h3>
+              <div className="flex items-center gap-3">
+                <span className="px-3 py-1 bg-accent-primary text-white font-mono text-[10px] font-bold uppercase tracking-tighter">
+                  {experience.company}
+                </span>
+                <span className="md:hidden font-mono text-[10px] font-bold text-text-secondary uppercase">
+                  {experience.date}
+                </span>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <ul className="grid gap-3">
+                {experience.description.map((desc, i) => (
+                  <li key={i} className="flex items-start gap-4 text-sm text-text-secondary font-medium leading-relaxed">
+                    <span className="text-accent-primary font-bold mt-1">»</span>
+                    {desc}
+                  </li>
+                ))}
+              </ul>
+
+              {experience.skills && experience.skills.length > 0 && (
+                <div className="flex flex-wrap gap-2 pt-6">
+                  {experience.skills.map((skill) => (
+                    <span
+                      key={skill}
+                      className="px-3 py-1 bg-bg-tertiary border border-border/50 font-mono text-[10px] font-bold text-text-primary uppercase"
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
 }
 
 export default function Experience() {
-    return (
-        <section
-            id="experience"
-            className="relative py-24 lg:py-32 bg-[var(--bg-secondary)]"
-        >
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                    initial={{opacity: 0, y: 20}}
-                    whileInView={{opacity: 1, y: 0}}
-                    viewport={{once: true}}
-                    className="text-center mb-16"
-                >
-          <span className="text-[var(--accent-primary)] font-medium mb-2 block">
-            My professional journey
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  const opacity = useTransform(scrollYProgress, [0, 0.2], [0, 1]);
+
+  return (
+    <section
+      id="experience"
+      ref={containerRef}
+      className="section-container bg-bg-primary relative z-10"
+    >
+      <div className="max-w-7xl mx-auto">
+        <motion.div style={{ opacity }} className="mb-20 space-y-4">
+          <span className="text-accent-primary font-mono text-xs font-bold tracking-[0.5em] uppercase">
+            {"// Professional Log"}
           </span>
-                    <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)]">
-                        Work Experience
-                    </h2>
-                    <div
-                        className="mt-4 w-20 h-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] mx-auto rounded-full"/>
-                </motion.div>
+          <h2 className="text-4xl md:text-6xl font-black text-text-primary tracking-tighter uppercase">
+            Operational <span className="gradient-text">History</span>
+          </h2>
+        </motion.div>
 
-                <div className="space-y-4">
-                    {experiences.map((experience, index) => (
-                        <ExperienceCard key={index} experience={experience} index={index}/>
-                    ))}
-                </div>
+        <div className="relative">
+          <div className="absolute left-[19px] md:left-[31.5%] top-0 bottom-0 w-[1px] bg-border/20 hidden md:block" />
+          
+          <div className="space-y-0">
+            {experiences.map((experience, index) => (
+              <ExperienceCard key={index} experience={experience} index={index} />
+            ))}
+          </div>
+        </div>
 
-                <motion.div
-                    initial={{opacity: 0, y: 20}}
-                    whileInView={{opacity: 1, y: 0}}
-                    viewport={{once: true}}
-                    className="mt-16 p-8 rounded-3xl bg-gradient-to-br from-[var(--accent-primary)]/10 to-[var(--accent-secondary)]/10 border border-[var(--accent-primary)]/20 text-center"
-                >
-                    <h3 className="text-xl font-bold text-[var(--text-primary)] mb-2">
-                        Want to know more?
-                    </h3>
-                    <p className="text-[var(--text-secondary)] mb-6">
-                        Download my resume for detailed information about my experience and
-                        achievements.
-                    </p>
-                    <motion.a
-                        href="/files/Rakesh_Ghosh_Resume_4YoE.pdf"
-                        download
-                        whileHover={{scale: 1.05}}
-                        whileTap={{scale: 0.95}}
-                        className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-semibold"
-                    >
-                        <Calendar className="w-5 h-5"/>
-                        Download Resume
-                    </motion.a>
-                </motion.div>
-            </div>
-        </section>
-    );
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mt-12 p-8 border-2 border-text-primary bg-text-primary text-bg-primary flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group"
+        >
+          <div className="absolute inset-0 bg-accent-primary opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-0" />
+          
+          <div className="relative z-10">
+            <h3 className="text-2xl font-black uppercase tracking-tighter mb-2">Detailed Dossier Required?</h3>
+            <p className="font-mono text-xs opacity-80 uppercase tracking-widest">Access full career documentation via PDF stream.</p>
+          </div>
+          
+          <motion.a
+            href="/files/Rakesh_Ghosh_Resume_4YoE.pdf"
+            download
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="relative z-10 px-8 py-4 bg-bg-primary text-text-primary font-mono text-xs font-bold uppercase tracking-[0.2em] border-2 border-transparent hover:border-bg-primary"
+          >
+            Download.PDF
+          </motion.a>
+        </motion.div>
+      </div>
+    </section>
+  );
 }

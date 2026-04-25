@@ -1,225 +1,178 @@
 "use client";
 
-import React, {useState, FormEvent} from "react";
-import {motion} from "framer-motion";
-import {Mail, MapPin, MessageCircle, CheckCircle} from "lucide-react";
-import {FaGithub, FaLinkedin, FaTwitter} from "react-icons/fa";
-import {personalInfo} from "@/datas/data";
+import React, { useState, FormEvent, useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { Mail, Globe, Send } from "lucide-react";
+import { FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
+import { personalInfo } from "@/datas/data";
 import InputField from "@/components/InputField";
 import TextAreaField from "@/components/TextAreaField";
-import SocialLink from "@/components/SocialLink";
 import PhoneInput from "@/components/ui/PhoneInput";
 
 export default function Contact() {
-    const [form, setForm] = useState({
-        name: "",
-        email: "",
-        phone: {code: "IN", number: ""},
-        subject: "",
-        message: ""
-    });
-    const [submitted, setSubmitted] = useState(false);
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    phone: { code: "IN", number: "" },
+    subject: "",
+    message: ""
+  });
+  const [submitted, setSubmitted] = useState(false);
+  
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        setForm({...form, [e.target.name]: e.target.value});
-    };
+  const y = useTransform(scrollYProgress, [0, 1], [100, -100]);
 
-    const handlePhoneChange = (phone: { code: string; number: string }) => {
-        setForm({...form, phone});
-    };
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
-    const handleSubmit = (e: FormEvent) => {
-        e.preventDefault();
+  const handlePhoneChange = (phone: { code: string; number: string }) => {
+    setForm({ ...form, phone });
+  };
 
-        const phone = personalInfo.phone.replace(/\D/g, "");
-        const message = `Hi Rakesh!%0A%0A*Name:* ${form.name}%0A*Email:* ${form.email}%0A*Phone:* +${form.phone.code === "IN" ? "91" : ""}${form.phone.number}%0A*Subject:* ${form.subject}%0A%0A*Message:*%0A${form.message}`;
-        const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    const phone = personalInfo.phone.replace(/\D/g, "");
+    const message = `Hi Rakesh!%0A%0A*Name:* ${form.name}%0A*Email:* ${form.email}%0A*Phone:* +${form.phone.code === "IN" ? "91" : ""}${form.phone.number}%0A*Subject:* ${form.subject}%0A%0A*Message:*%0A${form.message}`;
+    const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+    window.open(whatsappUrl, "_blank");
+    setForm({ name: "", email: "", phone: { code: "IN", number: "" }, subject: "", message: "" });
+    setSubmitted(true);
+    setTimeout(() => setSubmitted(false), 5000);
+  };
 
-        window.open(whatsappUrl, "_blank");
-
-        setForm({name: "", email: "", phone: {code: "IN", number: ""}, subject: "", message: ""});
-        setSubmitted(true);
-        setTimeout(() => setSubmitted(false), 5000);
-    };
-
-    return (
-        <section id="contact" className="relative py-24 lg:py-32 bg-[var(--bg-secondary)]">
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <motion.div
-                    initial={{opacity: 0, y: 20}}
-                    whileInView={{opacity: 1, y: 0}}
-                    viewport={{once: true}}
-                    className="text-center mb-12"
-                >
-          <span className="text-[var(--accent-primary)] font-medium mb-2 block">
-            Let&apos;s Connect
-          </span>
-                    <h2 className="text-4xl md:text-5xl font-bold text-[var(--text-primary)]">
-                        Get in Touch
-                    </h2>
-                    <div
-                        className="mt-4 w-20 h-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] mx-auto rounded-full"/>
-                    <p className="mt-6 text-[var(--text-secondary)] max-w-2xl mx-auto">
-                        Have a project in mind or just want to say hello? I&apos;d love to hear from you.
-                    </p>
-                </motion.div>
-
-                <div className="grid lg:grid-cols-5 gap-8 lg:gap-12">
-                    <motion.div
-                        initial={{opacity: 0, y: 30}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.5}}
-                        className="lg:col-span-3"
-                    >
-                        <div className="p-6 md:p-8 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border)]">
-                            <h3 className="text-xl font-bold text-[var(--text-primary)] mb-6">
-                                Send me a message
-                            </h3>
-
-                            {submitted && (
-                                <motion.div
-                                    initial={{opacity: 0, y: -10}}
-                                    animate={{opacity: 1, y: 0}}
-                                    className="mb-6 p-4 rounded-xl bg-green-500/10 border border-green-500/30 flex items-center gap-3"
-                                >
-                                    <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0"/>
-                                    <span className="text-green-500 font-medium text-sm">
-                    Opening WhatsApp! Send the message from there.
-                  </span>
-                                </motion.div>
-                            )}
-
-                            <form onSubmit={handleSubmit} className="space-y-5">
-                                <div className="grid sm:grid-cols-2 gap-5">
-                                    <InputField
-                                        label="Name"
-                                        name="name"
-                                        placeholder="John Doe"
-                                        value={form.name}
-                                        onChange={handleChange}
-                                    />
-                                    <InputField
-                                        label="Email"
-                                        name="email"
-                                        type="email"
-                                        placeholder="john@example.com"
-                                        value={form.email}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <PhoneInput
-                                    label="Phone Number"
-                                    name="phone"
-                                    value={form.phone}
-                                    onChange={handlePhoneChange}
-                                />
-                                <InputField
-                                    label="Subject"
-                                    name="subject"
-                                    placeholder="Project Inquiry"
-                                    value={form.subject}
-                                    onChange={handleChange}
-                                />
-                                <TextAreaField
-                                    label="Message"
-                                    name="message"
-                                    placeholder="Tell me about your project..."
-                                    rows={4}
-                                    value={form.message}
-                                    onChange={handleChange}
-                                />
-
-                                <motion.button
-                                    type="submit"
-                                    whileHover={{scale: 1.02}}
-                                    whileTap={{scale: 0.98}}
-                                    className="w-full py-4 rounded-xl bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white font-semibold flex items-center justify-center gap-2"
-                                >
-                                    <MessageCircle className="w-5 h-5"/>
-                                    Send via WhatsApp
-                                </motion.button>
-                            </form>
-                        </div>
-                    </motion.div>
-
-                    <motion.div
-                        initial={{opacity: 0, y: 30}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.5, delay: 0.1}}
-                        className="lg:col-span-2 space-y-6"
-                    >
-                        <div className="p-6 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border)] space-y-4">
-                            <h3 className="text-lg font-bold text-[var(--text-primary)]">
-                                Contact Information
-                            </h3>
-
-                            <div className="flex items-start gap-4">
-                                <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 flex-shrink-0">
-                                    <Mail className="w-5 h-5 text-[var(--accent-primary)]"/>
-                                </div>
-                                <div>
-                                    <p className="text-xs text-[var(--text-secondary)] mb-1">Email</p>
-                                    <a
-                                        href={`mailto:${personalInfo.email}`}
-                                        className="text-sm text-[var(--text-primary)] font-medium hover:text-[var(--accent-primary)] transition-colors break-all"
-                                    >
-                                        {personalInfo.email}
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div className="flex items-start gap-4">
-                                <div className="p-2.5 rounded-xl bg-[var(--accent-primary)]/10 flex-shrink-0">
-                                    <MapPin className="w-5 h-5 text-[var(--accent-primary)]"/>
-                                </div>
-                                <div>
-                                    <p className="text-xs text-[var(--text-secondary)] mb-1">Location</p>
-                                    <p className="text-sm text-[var(--text-primary)] font-medium">
-                                        {personalInfo.address}
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="p-6 rounded-2xl bg-[var(--bg-primary)] border border-[var(--border)]">
-                            <h3 className="text-lg font-bold text-[var(--text-primary)] mb-4">
-                                Connect with me
-                            </h3>
-
-                            <div className="space-y-3">
-                                <SocialLink
-                                    href={personalInfo.socials.linkedin}
-                                    icon={FaLinkedin}
-                                    label="LinkedIn"
-                                />
-                                <SocialLink
-                                    href={personalInfo.socials.github}
-                                    icon={FaGithub}
-                                    label="GitHub"
-                                />
-                                <SocialLink
-                                    href={personalInfo.socials.twitter}
-                                    icon={FaTwitter}
-                                    label="Twitter"
-                                />
-                            </div>
-                        </div>
-
-                        <div
-                            className="p-6 rounded-2xl bg-gradient-to-br from-[var(--accent-primary)]/10 to-[var(--accent-secondary)]/10 border border-[var(--accent-primary)]/20">
-                            <h4 className="text-base font-bold text-[var(--text-primary)] mb-2">
-                                Open to Opportunities
-                            </h4>
-                            <p className="text-sm text-[var(--text-secondary)]">
-                                I&apos;m currently open to new opportunities and collaborations. Whether you
-                                have a project in mind or just want to connect, feel free to reach out!
-                            </p>
-                        </div>
-                    </motion.div>
-                </div>
+  return (
+    <section id="contact" ref={containerRef} className="section-container bg-bg-primary relative z-10">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid lg:grid-cols-12 gap-16 items-start">
+          
+          <motion.div style={{ y }} className="lg:col-span-4 space-y-12">
+            <div className="space-y-4">
+              <span className="text-accent-primary font-mono text-xs font-bold tracking-[0.5em] uppercase">
+                {"// Transmission Node"}
+              </span>
+              <h2 className="text-4xl md:text-6xl font-black text-text-primary tracking-tighter uppercase">
+                Initialize <span className="gradient-text">Contact</span>
+              </h2>
+              <p className="text-text-secondary font-medium leading-relaxed">
+                Available for high-impact architectural roles and distributed system consultancy.
+              </p>
             </div>
-        </section>
-    );
+
+            <div className="space-y-6">
+              {[
+                { icon: Mail, label: "Neural Mail", value: personalInfo.email, href: `mailto:${personalInfo.email}` },
+                { icon: Globe, label: "Current Sector", value: personalInfo.address, href: "#" },
+              ].map((item, i) => (
+                <div key={i} className="group p-6 border-l-2 border-border/50 hover:border-accent-primary bg-bg-secondary/30 backdrop-blur-sm transition-all">
+                  <div className="flex items-center gap-4">
+                    <item.icon className="w-5 h-5 text-accent-primary" />
+                    <div>
+                      <div className="font-mono text-[10px] font-bold text-text-secondary uppercase tracking-widest">{item.label}</div>
+                      <a href={item.href} className="text-sm font-bold text-text-primary group-hover:text-accent-primary transition-colors">{item.value}</a>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex gap-4">
+              {[
+                { icon: <FaGithub size={20} />, href: personalInfo.socials.github },
+                { icon: <FaLinkedin size={20} />, href: personalInfo.socials.linkedin },
+                { icon: <FaTwitter size={20} />, href: personalInfo.socials.twitter }
+              ].map((social, i) => (
+                <a key={i} href={social.href} className="w-12 h-12 border-2 border-text-primary flex items-center justify-center hover:bg-text-primary hover:text-bg-primary transition-all">
+                  {social.icon}
+                </a>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="lg:col-span-8 bg-bg-secondary/50 backdrop-blur-md border-2 border-text-primary p-8 md:p-12 relative"
+          >
+            <div className="absolute top-0 right-0 w-24 h-24 bg-accent-primary/5 -rotate-45 translate-x-12 -translate-y-12" />
+            
+            <div className="relative z-10">
+              <div className="flex items-center gap-4 mb-10">
+                <div className="w-3 h-3 bg-accent-primary rounded-full animate-pulse" />
+                <span className="font-mono text-xs font-bold text-text-primary uppercase tracking-widest">Secure Uplink Established</span>
+              </div>
+
+              {submitted && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="mb-8 p-6 bg-accent-primary text-white font-mono text-sm font-bold uppercase tracking-tighter"
+                >
+                  [SYSTEM_SUCCESS]: Protocol initialized. Opening WhatsApp gateway...
+                </motion.div>
+              )}
+
+              <form onSubmit={handleSubmit} className="grid gap-8">
+                <div className="grid md:grid-cols-2 gap-8">
+                  <InputField
+                    label="Identifier"
+                    name="name"
+                    placeholder="ENTER_NAME"
+                    value={form.name}
+                    onChange={handleChange}
+                  />
+                  <InputField
+                    label="Neural Link"
+                    name="email"
+                    type="email"
+                    placeholder="ENTER_EMAIL"
+                    value={form.email}
+                    onChange={handleChange}
+                  />
+                </div>
+                
+                <PhoneInput
+                  label="COMMS_FREQUENCY"
+                  name="phone"
+                  value={form.phone}
+                  onChange={handlePhoneChange}
+                />
+
+                <InputField
+                  label="Operation Subject"
+                  name="subject"
+                  placeholder="CLASSIFIED"
+                  value={form.subject}
+                  onChange={handleChange}
+                />
+                
+                <TextAreaField
+                  label="Detailed Transmission"
+                  name="message"
+                  placeholder="BEGIN_LOG..."
+                  rows={4}
+                  value={form.message}
+                  onChange={handleChange}
+                />
+
+                <motion.button
+                  type="submit"
+                  whileHover={{ x: 10 }}
+                  className="w-full md:w-max px-12 py-5 bg-text-primary text-bg-primary font-mono text-xs font-black uppercase tracking-[0.3em] flex items-center justify-center gap-4 hover:bg-accent-primary transition-colors shadow-[8px_8px_0px_0px_var(--accent-primary)]"
+                >
+                  Execute Send <Send className="w-4 h-4" />
+                </motion.button>
+              </form>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
 }

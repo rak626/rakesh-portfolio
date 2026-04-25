@@ -5,6 +5,7 @@ import {Analytics} from "@vercel/analytics/react";
 import {SpeedInsights} from "@vercel/speed-insights/next";
 import {ThemeProvider} from "@/contexts/ThemeProvider";
 import CustomCursor from "@/components/CustomCursor";
+import FuturisticBackground from "@/components/ui/FuturisticBackground";
 import React from "react";
 
 const geistSans = Geist({
@@ -44,6 +45,7 @@ export default function RootLayout({
         >
         <ThemeProvider>
             <CustomCursor/>
+            <FuturisticBackground />
             {children}
             <Analytics/>
             <SpeedInsights/>
